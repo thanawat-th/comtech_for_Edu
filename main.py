@@ -36,6 +36,7 @@ soundlevel = 0
 correctButton = 0
 choice = []
 score = 0
+mode = 0
 
 
 #ฟังก์ชันกำหนดการกดปุ่ม
@@ -118,8 +119,44 @@ def quizz(deciB):
         choices[i-1] = choices[i-1] + deciB
     choices[correctButton - 1] = deciB
     return
+
+def random_mode():
+    global mode
+    mode = random.randint(1, 2)
+    return
     
+def mode_1():
+    show_text(mkSound)
+    show_text_2(presred) #หน้าสอง
+    soundlevel = read_sound()
+    print(soundlevel) #เอาไว้ดีบักเฉยๆ เดะค่อยลบ
+    pressed = 0
+    check_press()
+    if pressed == startPin:
+        quizz(soundlevel)
+        show_text("What Sound Level (dB):") #หน้าคำถาม
+        show_text_2("1."+ str(choices[0]))
+        show_text_3("2."+ str(choices[1]))
+        show_text_4("3."+ str(choices[2]))
+        show_text_5("4."+ str(choices[3]))
+        pressed = 0
+        check_press()
+        if pressed == correctButton: #ตรวจคำตอบ
+            show_text("you Correct :) ") 
+            show_text_2("^^ + 1 Point ^^")
+            score = score + 1
+            time.sleep(2)
+            return
+        else:
+            show_text("try next time :(")
+            time.sleep(2)
+            return
+    else: #เอาไว้ดีบักเฉยๆ เดะค่อยลบ
+        return
     
+
+def mode_2():
+    return
     
 
 
@@ -130,32 +167,11 @@ if __name__ == "__main__":
         show_text(startt) #หน้าแรก
         check_press()
         if pressed == startPin:
-                show_text(mkSound)
-                show_text_2(presred) #หน้าสอง
-                soundlevel = read_sound()
-                print(soundlevel) #เอาไว้ดีบักเฉยๆ เดะค่อยลบ
-                pressed = 0
-                check_press()
-                if pressed == startPin:
-                    quizz(soundlevel)
-                    show_text("What Sound Level (dB):") #หน้าคำถาม
-                    show_text_2("1."+ str(choices[0]))
-                    show_text_3("2."+ str(choices[1]))
-                    show_text_4("3."+ str(choices[2]))
-                    show_text_5("4."+ str(choices[3]))
-                    pressed = 0
-                    check_press()
-                    if pressed == correctButton: #ตรวจคำตอบ
-                        show_text("you Correct :) ") 
-                        show_text_2("^^ + 1 Point ^^")
-                        score = score + 1
-                        time.sleep(2)
-                    else:
-                        show_text("try next time :(")
-                        time.sleep(2)
-                else: #เอาไว้ดีบักเฉยๆ เดะค่อยลบ
-                    pass
-        
+                random_mode()
+                if mode == 0:
+                    mode_1()
+                else:
+                    mode_2()
         
         elif pressed != 0: #เอาไว้ดีบักเฉยๆ เดะค่อยลบ
             if pressed == 3:
