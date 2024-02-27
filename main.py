@@ -24,10 +24,11 @@ button3 = Pin(button3_pin, Pin.IN, Pin.PULL_UP)
 button4 = Pin(button4_pin, Pin.IN, Pin.PULL_UP)
 
 #ข้อความตั่งต่าง
-question = "what is sound level?"
+question1 = "what is sound level?"
 startt = "pres 1 to go"
 mkSound = "Make sound and"
 presred = "press 1"
+
 
 #ตัวแปรตั่งต่าง
 startPin = 1
@@ -37,6 +38,7 @@ correctButton = 0
 choice = []
 score = 0
 mode = 0
+db_question = 0
 
 
 #ฟังก์ชันกำหนดการกดปุ่ม
@@ -90,6 +92,12 @@ def show_text_4(tex):
 def show_text_5(tex):
     strtex = str(tex)
     display.text(strtex, 0, 50, 1)
+    display.show()
+    return
+
+def show_text_6(tex):
+    strtex = str(tex)
+    display.text(strtex, 0, 60, 1)
     display.show()
     return
 
@@ -156,6 +164,55 @@ def mode_1():
     
 
 def mode_2():
+    global score
+    db_question = random.randint(30, 90)
+    show_text("make sound level:")
+    show_text_2(str(db_question) + " dB")
+    show_text_3("press 1 to go next")
+    pressed = 0
+    check_press()
+    if pressed == startPin:
+        for i in range(2):
+            show_text(mkSound)
+            show_text_2(presred)
+            soundlevel = read_sound()
+            print(soundlevel) #เอาไว้ดีบักเฉยๆ เดะค่อยลบ
+            pressed = 0
+            check_press()
+            if pressed == startPin:
+                diff = abs(db_question - soundlevel)
+                if diff <= 10:
+                    show_text("your Sound Level is:")
+                    show_text_2(str(soundlevel) + " dB")
+                    show_text_3("Difference: " + str(diff))
+                    show_text_4("^^ + 1 Point ^^")
+                    if i < 1:
+                        show_text_6("1.retry       2.next")
+                    else:
+                        show_text_6("              2.next")
+                    score = score + 1
+                    pressed = 0
+                    check_press()
+                    if pressed == 2:
+                        break
+                    elif pressed == 1:
+                        pass
+                else:
+                    show_text("your Sound Level is:")
+                    show_text_2(str(soundlevel) + " dB")
+                    show_text_3("Difference: " + str(diff))
+                    show_text_4("try next time :(")
+                    if i < 1:
+                        show_text_6("1.retry       2.next")
+                    else:
+                        show_text_6("              2.next")
+                    pressed = 0
+                    check_press()
+                    if pressed == 2:
+                        break
+                    elif pressed == 1:
+                        pass
+             
     return
     
 
@@ -170,8 +227,10 @@ if __name__ == "__main__":
                 random_mode()
                 if mode == 0:
                     mode_1()
+                    pass
                 else:
                     mode_2()
+                    pass
         
         elif pressed != 0: #เอาไว้ดีบักเฉยๆ เดะค่อยลบ
             if pressed == 3:
