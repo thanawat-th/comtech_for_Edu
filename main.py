@@ -216,7 +216,7 @@ if __name__ == "__main__":
     #เมนลูปจ้าา
     while True:
         finish = 0
-        show_text_head("  SOUND SENSEI") #หน้าแรก
+        show_text_head("  SONIC SENSEI") #หน้าแรก
         show_text_3("    [1]play")
         show_text_41("    [2]about")
         show_text_6("    [3]credit")
@@ -267,7 +267,7 @@ if __name__ == "__main__":
                             pass
                         
                 else:
-                    db_question = random.randint(30, 90)
+                    db_question = random.randint(25, 70)
                     show_quiz_num(i+1, mode+1)
                     show_text("make sound level:")
                     show_text_3(str(db_question) + " dB")
